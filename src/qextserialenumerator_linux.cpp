@@ -41,7 +41,7 @@ void QextSerialEnumeratorPrivate::init_sys()
 #ifndef QESP_NO_UDEV
     monitor = NULL;
     notifierFd = -1;
-    notifier = NULL;
+    notifier = nullptr;
 
     udev = udev_new();
     if (!udev)
@@ -182,8 +182,8 @@ bool QextSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
     udev_monitor_filter_add_match_subsystem_devtype(monitor, "tty", NULL);
     udev_monitor_enable_receiving(monitor);
     notifierFd = udev_monitor_get_fd(monitor);
-    notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read);
-    q->connect(notifier, &QSocketNotifier::activated, [this]{_q_deviceEvent();});
+    notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, q);
+    q->connect(notifier, &QSocketNotifier::activated, q, [this]{_q_deviceEvent();});
     notifier->setEnabled(true);
 
     return true;
