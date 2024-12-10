@@ -34,6 +34,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
 #include <QtCore/QSysInfo>
+#include <QOperatingSystemVersion>
 #include <IOKit/serial/IOSerialKeys.h>
 #include <CoreFoundation/CFNumber.h>
 #include <sys/param.h>
@@ -222,7 +223,8 @@ void QextSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
         // workaround for El Capitan bug where endpoints aren't immediately accessible
         // when devices are first enumerated. 500ms is an arbitrary value chosen
         // through experimentation (100ms was too short).
-        static const int delay = QSysInfo::MacintoshVersion >= QSysInfo::MV_ELCAPITAN ? 500 : 0;
+        static const int delay = 
+        QOperatingSystemVersion::current() >= QOperatingSystemVersion::OSXElCapitan ? 500 : 0;
         QTimer::singleShot(delay, [=]{
             Q_EMIT q->deviceDiscovered(info);
         });

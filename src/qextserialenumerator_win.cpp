@@ -34,8 +34,9 @@
 #include "qextserialenumerator_p.h"
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTimer>
+#include <QtCore/qregularexpression.h>
 #include <algorithm>
 #include <objbase.h>
 #include <initguid.h>
@@ -216,11 +217,12 @@ static bool getDeviceDetailsInformation(QextPortInfo *portInfo, HDEVINFO devInfo
     ::RegCloseKey(devKey);
 
     QString hardwareIDs = getDeviceRegistryProperty(devInfoSet, devInfoData, SPDRP_HARDWAREID);
-    QRegExp idRx(QLatin1String("VID_(\\w+)&PID_(\\w+)"));
-    if (hardwareIDs.toUpper().contains(idRx)) {
+    QRegularExpression idRx(QLatin1String("VID_(\\w+)&PID_(\\w+)"));
+    QRegularExpressionMatch match = idRx.match(hardewareIDs.toUpper());
+    if (match.hasMatch()) {
         bool dummy;
-        portInfo->vendorID = idRx.cap(1).toInt(&dummy, 16);
-        portInfo->productID = idRx.cap(2).toInt(&dummy, 16);
+        portInfo->vendorID = match.captured(1).toInt(&dummy, 16);
+        portInfo->productID = match.captured(2).toInt(&dummy, 16);
         //qDebug() << "got vid:" << vid << "pid:" << pid;
     }
     return true;
