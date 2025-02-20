@@ -218,7 +218,7 @@ static bool getDeviceDetailsInformation(QextPortInfo *portInfo, HDEVINFO devInfo
 
     QString hardwareIDs = getDeviceRegistryProperty(devInfoSet, devInfoData, SPDRP_HARDWAREID);
     QRegularExpression idRx(QLatin1String("VID_(\\w+)&PID_(\\w+)"));
-    QRegularExpressionMatch match = idRx.match(hardewareIDs.toUpper());
+    QRegularExpressionMatch match = idRx.match(hardwareIDs.toUpper());
     if (match.hasMatch()) {
         bool dummy;
         portInfo->vendorID = match.captured(1).toInt(&dummy, 16);
