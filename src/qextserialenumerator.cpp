@@ -34,7 +34,8 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
+
 
 QextSerialEnumeratorPrivate::QextSerialEnumeratorPrivate(QextSerialEnumerator *enumrator)
     :q_ptr(enumrator)
@@ -128,8 +129,7 @@ QextSerialEnumeratorPrivate::~QextSerialEnumeratorPrivate()
 QextSerialEnumerator::QextSerialEnumerator(QObject *parent)
     :QObject(parent), d_ptr(new QextSerialEnumeratorPrivate(this))
 {
-    if (!QMetaType::isRegistered(QMetaType::type("QextPortInfo")))
-        qRegisterMetaType<QextPortInfo>("QextPortInfo");
+    qRegisterMetaType<QextPortInfo>("QextPortInfo");
 }
 
 /*!
