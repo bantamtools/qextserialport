@@ -321,6 +321,7 @@ bool operator==(const QextPortInfo &a, const QextPortInfo &b)
          a.productID == b.productID;
 }
 
+#ifdef QT_GUI_LIB
 void QextSerialEnumeratorPrivate::rescanDevices()
 {
     Q_Q(QextSerialEnumerator);
@@ -338,3 +339,4 @@ void QextSerialEnumeratorPrivate::rescanDevices()
         }
     }
 }
+#endif // QT_GUI_LIB

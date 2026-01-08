@@ -129,8 +129,7 @@ QextSerialEnumeratorPrivate::~QextSerialEnumeratorPrivate()
 QextSerialEnumerator::QextSerialEnumerator(QObject *parent)
     :QObject(parent), d_ptr(new QextSerialEnumeratorPrivate(this))
 {
-    if (!QMetaType::isRegistered(QMetaType::type("QextPortInfo")))
-        qRegisterMetaType<QextPortInfo>("QextPortInfo");
+    qRegisterMetaType<QextPortInfo>("QextPortInfo");
 }
 
 /*!
